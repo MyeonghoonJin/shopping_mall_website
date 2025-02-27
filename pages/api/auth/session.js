@@ -1,21 +1,15 @@
-import { connectDB } from "@/util/database";
-import redis from "@/util/redis";
+import { cookies } from "next/headers";
 
-export default async function Session(req,res){
+export default function Session(req,res){
 
     if(req.method != 'GET'){
         return res.status(405).json({ error: "잘못된 메소드 요청" });
     }
+    
     //sessionId
-    req.query.sessionId
-
+    let sessionId = req.cookies.sessionId
     try{
-
-        let user = await redis.get(req.query.sessionId)
-        user = JSON.parse(user)
-        // console.log(user)
-        
-        return res.status(200).json(user)
+        return res.status(200).json(sessionId)
     }
     catch(error){
         console.log(error)

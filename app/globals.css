@@ -40,3 +40,32 @@ a {
     color-scheme: dark;
   }
 }
+button {
+  padding: 10px 15px;
+  background: lightgray;
+  border: none;
+  border-radius: 8px;
+  margin-right: 3px;
+  cursor: pointer;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between; /* 양쪽 정렬 */
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid gray;
+}
+/* ✅ 오른쪽 버튼 컨테이너 */
+.right-buttons {
+  display: flex;
+  justify-content: flex-end; /* ✅ "다음" 버튼을 항상 오른쪽 끝에 배치 */
+  flex-grow: 1; /* 오른쪽 영역 확장 */
+  margin-right: 20px;
+}
+.profile{
+  width: 40px;
+  margin-left: 10px;
+  color: #222;
+}

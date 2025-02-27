@@ -2,6 +2,8 @@ import { connectDB } from "@/util/database";
 import redis from "@/util/redis";
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import { cookies } from "next/headers";
+import { serialize } from "v8";
 
 export default async function LoginHandler(req,res) {
     
@@ -29,9 +31,11 @@ export default async function LoginHandler(req,res) {
         //랜덤 sessionId 설정
         const sessionId = crypto.randomUUID()
 
+        //연결 오류 처리
         redis.on("error", (err) => {
             console.error("❌ Redis 연결 오류:", err);
           });
+
         // Redis에 유저 정보 저장 (세션 ID로 유저 정보 조회 가능)
         await redis.set(sessionId,JSON.stringify({
             id: user.id,
@@ -42,7 +46,14 @@ export default async function LoginHandler(req,res) {
             profile : user.profile || ''
         }),"EX", 3 * 60 * 60)
         // console.log(sessionId)
-        return res.status(200).json(sessionId)
+
+        //쿠키에 세션ID 저장
+        res.setHeader(
+            "Set-Cookie",
+            `sessionId=${sessionId}; Path=/; Max-Age=10800; httpOnly=true;`     
+        )
+        
+        return res.status(200).redirect('/')
     }
     catch(error){
         console.log(error)
