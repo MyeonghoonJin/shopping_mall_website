@@ -26,7 +26,7 @@ export default async function RootLayout({ children }) {
 
   let session = await getServerSession(authOptions)
   if(session){
-    console.log(session.user)
+    // console.log(session.user)
   }
   return (
     <html lang="en">
@@ -36,10 +36,15 @@ export default async function RootLayout({ children }) {
           {/* ✅ 오른쪽 버튼 컨테이너 */}
           <div className="right-buttons">
             {
-              session ? <LogoutBtn/> : <LoginBtn/> 
+              session ? 
+              <div>
+                <p>{session.user.name}님 환영합니다!</p>
+                <LogoutBtn/>
+              </div> 
+              : <LoginBtn/> 
             } 
             {
-              session ? <img src={ session.user.src ? session.user.src : '/default_profile.jpg'} className="profile"/> : ''
+              session ? <img src={ session.user?.src ? session.user.src : '/default_profile.jpg'} className="profile"/> : ''
             }
           </div>
         </div>

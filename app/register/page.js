@@ -1,5 +1,6 @@
 'use client'
 
+import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
@@ -145,6 +146,18 @@ export default function Register(){
                 return r.json()
             })
         }}>회원가입</button>
+
+        <div className="social-login-container">
+            <h3>이미 가입하셨나요?</h3>
+
+                {/* 새로운 페이지(기본 로그인 폼)가 열림 */}
+                <button className="id-login-button" onClick={()=>signIn()}>아이디 로그인</button>
+
+                {/*페이지 이동 없이 바로 소셜 로그인 */}
+                {/* <button className={`kakao-login-button`} onClick={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}>카카오 로그인</button> */}
+                <button className={`naver-login-button`} onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}>네이버 로그인</button>
+
+        </div>
         </div>
     )
 }
