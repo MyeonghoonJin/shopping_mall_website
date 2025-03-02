@@ -1,0 +1,128 @@
+/* ---------------------------------------------page.js --------------------------------------------------------------*/
+/* -------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+/* --------------------------------------------categoryBtn -----------------------------------------------------------*/
+/* -------------------------------------------------------------------------------------------------------------------*/
+.category-container{
+    text-align:  center;
+    margin: 100px 10px 50px 10px;
+}
+.category{
+    margin: 5px;
+    
+}
+
+
+
+
+
+
+
+/* --------------------------------------------mainInfo --------------------------------------------------------------*/
+/* -------------------------------------------------------------------------------------------------------------------*/
+
+.product-info{
+    display: flex;
+    justify-content: center;
+}
+
+.product-mainInfo-container{
+    display: flex;
+    width: 60%;
+    height: 596px;
+}
+
+.product-mainInfo-thumbnails-carousel {
+    position: relative;
+    width: 40%;
+    /* max-width: 518.406px;  */
+    margin: auto;
+}
+
+
+.carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-image {
+    max-width: 100%;
+    max-height: 100%;
+    height: 564px;
+    border-radius: 10px;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.carousel-button.left {
+    left: 0px;
+}
+
+.carousel-button.right {
+    right: 0px;
+}
+
+.carousel-pagination {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: gray;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: black;
+}
+
+.product-mainInfo-parchase-info-container{
+    width: 50%;
+}
+.parchase-info-top{
+    display: flex;
+}
+.parchase-info-top-product_name{
+    padding: 30px;
+    width: 120%;
+}
+.parchase-info-top-heart{
+    width: 30%;
+    display: flex;
+    border-left: 1px solid gray;
+}
+.heart-img{
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    max-width: 100%;
+    max-height: 100%;
+    height: 110px;
+    padding: 40px;
+}
+
+/* --------------------------------------------detailInfo ------------------------------------------------------------*/
+/* -------------------------------------------------------------------------------------------------------------------*/
