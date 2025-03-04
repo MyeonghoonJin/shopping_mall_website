@@ -1,5 +1,6 @@
 .main-item-thumbnail,.main-item-product_name{
   cursor: pointer;
+  max-width: 40%;
 }
 .main-item-brand{
   cursor: pointer;

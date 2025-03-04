@@ -11,15 +11,15 @@ export default function ProductMainInfo({product , styles}){
     
     //오른쪽 넘기기
     let nextSlide = () => {
-        setIdx((prevIdx) => {
+        setIdx((prevIdx) => 
             prevIdx == imgs.length - 1 ? 0 : prevIdx + 1
-        })
+        )
     }
     //왼쪽 넘기기
     let prevSlide = () => {
-        setIdx((prevIdx) => {
+        setIdx((prevIdx) => 
             prevIdx == 0 ? imgs.length - 1 : prevIdx - 1
-        })
+        )
     }
     return(
         <div className={styles["product-info"]}>
@@ -35,7 +35,7 @@ export default function ProductMainInfo({product , styles}){
                         />
 
                         {/* 왼쪽 버튼 */}
-                        <button className={styles["carousel-button"] + ' '+ styles["left"]} onClick={prevSlide}>
+                        <button className={styles["carousel-button"] + ' ' + styles["left"]} onClick={prevSlide}>
                             ❮
                         </button>
 
@@ -45,7 +45,6 @@ export default function ProductMainInfo({product , styles}){
                         onClick={nextSlide}>
                             ❯
                         </button>
-
                         {/* 페이지네이션 (하단 점) */}
                         <div className={styles["carousel-pagination"]}>
                             {
@@ -53,9 +52,9 @@ export default function ProductMainInfo({product , styles}){
                             imgs.map((a, i) => (
                                 <span
                                     key={i}
-                                    className={`dot ${idx === i ? 'active' : ''}`}
+                                    className={styles["dot" + idx === i ? 'active' : '']}
                                     onClick={() => setIdx(i)}
-                                ></span>
+                                    ></span>
                             ))
                              : <span className={styles["dot"]}></span>
                         }

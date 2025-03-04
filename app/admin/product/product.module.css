@@ -7,3 +7,6 @@
     border-radius: 5px;
     resize: none;
 }
+.thumbnail-preview{
+    max-width: 40%;
+}

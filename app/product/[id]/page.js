@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 import CategoryBtn from "./categoryBtn"
 import ProductMainInfo from "./productMainInfo"
 import styles from "./product.module.css";
+import ProductDetailInfo from "./productDetailInfo";
 
 export default async function product(props){
 
@@ -21,6 +22,7 @@ export default async function product(props){
             <h2 className="product-header">상세 페이지</h2>
             <CategoryBtn product = {product} styles = {styles}/>
             <ProductMainInfo product = {product} styles = {styles} />
+            <ProductDetailInfo product = {product} styles = {styles} />
         </div>
     )
 }

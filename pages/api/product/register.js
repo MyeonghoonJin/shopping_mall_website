@@ -16,6 +16,7 @@ export default async function ProductRegister(req,res) {
     try {
         
         const form = new IncomingForm();
+        
         form.parse(req, async (err, fields) => {
             if (err) {
               console.error("Error parsing form data:", err);
@@ -24,7 +25,7 @@ export default async function ProductRegister(req,res) {
             console.log("Fields:", fields); // 📌 `req.body`에 해당하는 텍스트 데이터
             
             const db = await (await connectDB).db('shopping_mall')
-    
+            
             let result = await db.collection('product').insertOne({
                 product_name : fields.product_name[0],
                 category: fields.category,

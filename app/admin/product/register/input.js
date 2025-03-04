@@ -47,9 +47,12 @@ export default function Input({totalbrands,styles}){
             filenames.push(encodeURIComponent(file.name))
         }
         isThumbnail ? setPrevThumbnail(prevThumbnails) : setPrevImages(prevImages0)
+
         //presignedURL 구해오기
         let params = new URLSearchParams()
-        filenames.forEach((file) => params.append("file", file));
+        for(let file of files){
+            params.append("file",file.name)
+        }
 
         let results = await fetch('../../api/util/presignedURL?' + params.toString())
         results = await results.json()
@@ -77,7 +80,7 @@ export default function Input({totalbrands,styles}){
                 console.log('실패')
             }
         }
-        console.log('imgURLs : ',imgURLs) 
+        // console.log('imgURLs : ',imgURLs) 
         return imgURLs
     }
 
@@ -88,7 +91,7 @@ export default function Input({totalbrands,styles}){
         urls.forEach((url,i) => {
             const img = document.createElement("img");
             img.src = url;
-            img.style.maxWidth = "100%";
+            img.style.maxWidth = "40%";
             img.style.height = "auto";
             img.style.margin = "5px 0";
             img.contentEditable = false;
@@ -173,6 +176,7 @@ export default function Input({totalbrands,styles}){
                 <input type="file" className="admin-register-input-thumbnail" accept="image/*" onChange={async(e) => {
                     let urls = await handleImageUpload(e,true)
                     if(urls){
+                        console.log(urls)
                         setThumbnail(urls)
                     }
                 }}multiple />
@@ -182,7 +186,7 @@ export default function Input({totalbrands,styles}){
                         prevThumbnail.map((tn,idx) => {
                             return(
                                 <div key={idx}>
-                                    <img className='thumbnail-preview' src={tn} />
+                                    <img className={styles["thumbnail-preview"]} src={tn} />
                                     <button type='button' className="thumbnail-preview-deleteBtn" onClick={() => {
                                         setPrevThumbnail(thumbnail.filter((_, i) => i !== idx));
                                         setThumbnail(thumbnail.filter((_, i) => i !== idx));
@@ -194,7 +198,8 @@ export default function Input({totalbrands,styles}){
                     }
                 </div>
                 <br></br><br></br>
-                <hr></hr><br></br>
+                <hr></hr><br></br>{console.log("thumbnail : ",thumbnail)}
+                {/* -------------------------------------상세 정보 입력 --------------------------------------------------------*/}
                 <div className="detail-info-register">
                     <label>상세정보 입력</label>
                     <span onClick={() => {
@@ -203,9 +208,13 @@ export default function Input({totalbrands,styles}){
                         }
                     }}
                     style={{ cursor: 'pointer'}}> 🔗</span>
-                    {/*-------------------------- hidden input -------------------------------*/}
+                    {/*------------------------------------- hidden input ----------------------------------------------*/}
                     <input type="hidden" name="description" ref={hiddenInputRef} />
-                    <input type="hidden" name="thumbnail" value={thumbnail.length > 0 ? thumbnail : ""}  />
+                    {
+                        thumbnail.map((a,i) => 
+                            <input key={i} type="hidden" name="thumbnail" value={a} />
+                        )
+                    }
 
                     <input
                         type="file"
@@ -215,7 +224,8 @@ export default function Input({totalbrands,styles}){
                         onChange={async(e) => {
                             let urls = await handleImageUpload(e,false)
                             if(urls){
-                                setImages((prev) => [...prev, ...urls]);
+                                setImages(urls);
+                                console.log()
                                 insertImageAtCursor(urls)
                                 adjustHeight(); // 높이 조정
                             }
@@ -233,7 +243,7 @@ export default function Input({totalbrands,styles}){
                 </div>
                 <button type="submit" onClick={() => {
                     if (hiddenInputRef.current && editorRef.current) {
-                        hiddenInputRef.current.value = editorRef.current.innerHTML; // ✅ `div` 내용을 `hidden input`에 저장
+                        hiddenInputRef.current.value = editorRef.current.innerHTML; // ✅ `admin-register-input-textarea` 내용을 `hidden input`에 저장
                     }
                 }}>상품 등록</button>
             </form>
