@@ -33,12 +33,15 @@ export default async function RootLayout({ children }) {
       <body>
         <div className="nav-bar">
           <Link href='/'><h2>musinsa</h2></Link>
+          <Link href='/admin/product/register'>상품 등록</Link>
           {/* ✅ 오른쪽 버튼 컨테이너 */}
           <div className="right-buttons">
             {
               session ? 
               <div>
-                <p>{session.user.name}님 환영합니다!</p>
+                {
+                  session.user.role == 'admin' ? <p>운영자 모드입니다.</p> : <p>{session.user.name}님 환영합니다!</p>
+                }
                 <LogoutBtn/>
               </div> 
               : <LoginBtn/> 
