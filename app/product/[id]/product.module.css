@@ -31,30 +31,28 @@
 
 .product-mainInfo-container{
     display: flex;
-    width: 60%;
+    width: 85%;
     height: 596px;
+    margin-bottom: 70px;
 }
 
 .product-mainInfo-thumbnails-carousel {
     position: relative;
-    width: 40%;
+    width: 50%;
     /* max-width: 518.406px;  */
-    margin: auto;
-}
-
-
-.carousel {
+    margin-right: 30px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    
 }
 
 .carousel-image {
-    max-width: 100%;
+    /* max-width: 100%; */
     max-height: 100%;
+    width: 99.5%;
     height: 564px;
-    border-radius: 10px;
 }
 
 .carousel-button {
@@ -71,19 +69,20 @@
 }
 
 .carousel-button.left {
-    left: 0px;
+    left: 0;
 }
 
 .carousel-button.right {
-    right: 0px;
+    right: 0;
 }
 
 .carousel-pagination {
     position: absolute;
-    bottom: 10px;
+    bottom: 0;
     display: flex;
     justify-content: center;
     width: 100%;
+
 }
 
 .dot {
@@ -99,8 +98,12 @@
     background: black;
 }
 
+
+
 .product-mainInfo-parchase-info-container{
-    width: 50%;
+    width: 40%;
+    margin-left: 30px;
+    position: relative;
 }
 .parchase-info-top{
     display: flex;
@@ -114,21 +117,32 @@
     display: flex;
     border-left: 1px solid gray;
 }
+.parchase-info-top-price{
+    margin-left: 50px;
+    font-weight: bolder;
+}
 .heart-img{
     justify-content: center;
     align-items: center;
     background-color: white;
     max-width: 100%;
     max-height: 100%;
+    /* width: 100px; */
     height: 110px;
     padding: 40px;
+}
+.button-container{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
 }
 
 /* --------------------------------------------detailInfo ------------------------------------------------------------*/
 /* -------------------------------------------------------------------------------------------------------------------*/
-.detail-info{
+/* .detail-info{
     display: flex;
-}
+} */
 .detail-info-description{
-    align-content: center;
+    text-align: center;
+    margin: 100px;
 }

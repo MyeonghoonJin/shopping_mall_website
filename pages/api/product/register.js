@@ -1,6 +1,8 @@
 import product from "@/app/product/[id]/page";
 import { connectDB } from "@/util/database";
 import { IncomingForm } from "formidable";
+// import IncomingForm from "formidable/Formidable";
+
 
 export const config = {
     api: {

@@ -19,6 +19,7 @@ export default async function product(props){
     // console.log(product)
     return(
         <div>
+            <br></br>
             <h2 className="product-header">상세 페이지</h2>
             <CategoryBtn product = {product} styles = {styles}/>
             <ProductMainInfo product = {product} styles = {styles} />

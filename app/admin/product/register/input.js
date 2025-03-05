@@ -11,7 +11,7 @@ export default function Input({totalbrands,styles}){
     let [thumbnail,setThumbnail] = useState([])
     let [prevImages,setPrevImages] = useState([])
     let [images, setImages] = useState([]); 
-    let [editorHeight, setEditorHeight] = useState(500); // 초기 크기 설정
+    let [editorHeight, setEditorHeight] = useState(1000); // 초기 크기 설정
     let router = useRouter();
     let fileInputRef2 = useRef();
     let editorRef = useRef(null);
@@ -26,10 +26,16 @@ export default function Input({totalbrands,styles}){
         const newCategory = event.target.value;
         setSelectedCategory(newCategory); // 선택된 값 업데이트
     }
+
     useEffect(() => {
         let brandList = totalbrands?.filter(brand => brand.category.includes(selectedCategory));
         setBrands(brandList);
-    },[selectedCategory])
+
+        const image = editorRef.current.querySelectorAll("img");
+        image.forEach(img => {
+            img.onload = adjustHeight();
+        });
+    },[selectedCategory],[images])
 
     //이미지를 s3 저장 및 미리보기를 불러오는 함수
     const handleImageUpload = async(e, isThumbnail) => {
@@ -91,9 +97,12 @@ export default function Input({totalbrands,styles}){
         urls.forEach((url,i) => {
             const img = document.createElement("img");
             img.src = url;
-            img.style.maxWidth = "40%";
+            img.style.maxWidth = "90%";
+            img.style.width = "100%";
             img.style.height = "auto";
             img.style.margin = "5px 0";
+            img.style.display = "block";
+            img.style.margin = "10px auto";    
             img.contentEditable = false;
             editor.appendChild(img);
             editor.appendChild(document.createElement("br"));
@@ -101,38 +110,70 @@ export default function Input({totalbrands,styles}){
         adjustHeight(); // 이미지 추가 후 높이 조정
     };
 
-    // 🔹 Backspace 키로 이미지 삭제 감지
-    const handleKeyDown = (event) => {
-        if (event.key === "Backspace") {
-
-            const editor = editorRef.current;
-            if (!editor) return;
-            
-            const remainingImages = Array.from(editor.querySelectorAll("img")).map(img => img.src);
-            
-            // ✅ `images` 상태를 현재 에디터 내 남아 있는 이미지들과 동기화
-            setImages((prevImages) => {
-                const updatedImages = prevImages.filter(src => remainingImages.includes(src));
-                setTimeout(adjustHeight, 0); // ✅ 상태 업데이트 후 즉시 실행
-                return updatedImages;
-            });
-        }
-    };
-    // 🔹 높이를 즉시 반영하도록 개선
-    const adjustHeight = (force = false) => {
-        const editor = editorRef.current;
+    // 🔹 에디터 높이 조정 함수 (이미지 추가 및 삭제 시 동작)
+    let adjustHeight = (prevImageCount = null) => {
+        let editor = editorRef.current;
         if (!editor) return;
 
-        requestAnimationFrame(() => {
-            const newHeight = editor.scrollHeight;
-            setEditorHeight((prevHeight) => {
-                if (force || newHeight !== prevHeight) {
-                    return newHeight > 1000 ? newHeight : 1000; // 최소 높이 유지
+        let images = Array.from(editor.querySelectorAll("img"));
+        let textHeight = editor.scrollHeight; // 현재 텍스트 포함 높이
+        let extraSpacePerImage = 50; // 각 이미지당 추가 여유 공간 (px)
+
+        let imageLoadPromises = images.map((img) =>
+            new Promise((resolve) => {
+                if (img.complete) {
+                    resolve(img.getBoundingClientRect().height);
+                } else {
+                    img.onload = () => resolve(img.getBoundingClientRect().height);
                 }
-                return prevHeight;
+            })
+        );
+
+        Promise.all(imageLoadPromises).then((heights) => {
+            let totalImageHeight = heights.reduce((sum, h) => sum + h, 0);
+            let extraHeight = images.length * extraSpacePerImage; // 추가된 이미지 개수만큼 여유 공간 추가
+
+            requestAnimationFrame(() => {
+                let newHeight;
+
+                if (prevImageCount !== null && images.length < prevImageCount) {
+                    // ✅ 이미지가 삭제된 경우: 최소 높이 유지하면서 줄어든 높이를 반영
+                    newHeight = Math.max(1000, Math.min(textHeight, totalImageHeight + extraHeight + 50));
+                } else {
+                    // ✅ 이미지가 추가된 경우: 추가된 이미지 개수만큼의 여유 공간 포함
+                    newHeight = Math.max(1000, Math.max(textHeight, totalImageHeight + extraHeight + 50));
+                }
+
+                console.log('newHeight:', newHeight);
+                console.log('textHeight:', textHeight);
+                console.log('totalImageHeight:', totalImageHeight);
+                console.log('extraHeight:', extraHeight);
+                console.log('prevImageCount:', prevImageCount);
+                console.log('currentImageCount:', images.length);
+
+                setEditorHeight(newHeight);
             });
         });
     };
+
+    // 🔹 이미지 삭제 감지 및 높이 조정
+    const handleKeyDown = (event) => {
+        if (event.key === "Backspace") {
+            let editor = editorRef.current;
+            if (!editor) return;
+
+            let prevImageCount = editor.querySelectorAll("img").length; // 이전 이미지 개수
+            setTimeout(() => {
+                let currentImageCount = editor.querySelectorAll("img").length; // 현재 이미지 개수
+                if (currentImageCount < prevImageCount) {
+                    adjustHeight(prevImageCount); // ✅ 이미지가 삭제된 경우 높이 조정
+                }
+            }, 0);
+        }
+    };
+
+
+    
 
 
     return(
@@ -176,7 +217,6 @@ export default function Input({totalbrands,styles}){
                 <input type="file" className="admin-register-input-thumbnail" accept="image/*" onChange={async(e) => {
                     let urls = await handleImageUpload(e,true)
                     if(urls){
-                        console.log(urls)
                         setThumbnail(urls)
                     }
                 }}multiple />
@@ -198,7 +238,7 @@ export default function Input({totalbrands,styles}){
                     }
                 </div>
                 <br></br><br></br>
-                <hr></hr><br></br>{console.log("thumbnail : ",thumbnail)}
+                <hr></hr><br></br>
                 {/* -------------------------------------상세 정보 입력 --------------------------------------------------------*/}
                 <div className="detail-info-register">
                     <label>상세정보 입력</label>
@@ -238,7 +278,11 @@ export default function Input({totalbrands,styles}){
                         placeholder="상품 정보를 입력하세요..."
                         suppressContentEditableWarning={true}
                         onKeyDown={handleKeyDown}
-                        style={{ height: editorHeight + "px", overflow: "hidden" }}
+                        style={{
+                            height: `${editorHeight}px`,
+                            overflow: "hidden",
+                            textAlign: "center", // ✅ 텍스트 중앙 정렬
+                        }}
                     />
                 </div>
                 <button type="submit" onClick={() => {
