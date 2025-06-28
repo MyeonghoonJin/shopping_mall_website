@@ -26,16 +26,22 @@ export default async function RootLayout({ children }) {
 
   let session = await getServerSession(authOptions)
   if(session){
-    // console.log(session.user)
+
   }
   return (
     <html lang="en">
       <body>
         <div className="nav-bar">
           <Link href='/'><h2>musinsa</h2></Link>
-          <Link href='/admin/product/register'>상품 등록</Link>
+          {
+            session? session.user.role == 'admin' ? <Link href='/admin/product/register'>상품 등록</Link> : <></>
+            : <></>
+          }
           {/* ✅ 오른쪽 버튼 컨테이너 */}
           <div className="right-buttons">
+            {
+              session ? <img src={ session.user?.src ? session.user.src : '/default_profile.jpg'} className="profile"/> : ''
+            }
             {
               session ? 
               <div>
@@ -46,9 +52,6 @@ export default async function RootLayout({ children }) {
               </div> 
               : <LoginBtn/> 
             } 
-            {
-              session ? <img src={ session.user?.src ? session.user.src : '/default_profile.jpg'} className="profile"/> : ''
-            }
           </div>
         </div>
         {children}

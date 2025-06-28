@@ -7,6 +7,7 @@ import ProductDetailInfo from "./productDetailInfo";
 
 export default async function product(props){
 
+    const params = await props.params; // 비동기 해제
     //product_id
     let product_id =  props.params.id
 
