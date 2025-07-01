@@ -10,7 +10,7 @@
 }
 .main-item-container {
   width: 100%;
-  max-width: calc(260px * 5);
+  max-width: calc(250px * 5);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr)); /* ✅ 계산 과잉 방지 */
@@ -18,26 +18,26 @@
   gap: 0px 0px;
 }
 .main-item{
+  cursor: pointer;
   width: 100%;
-  /* height: 376.64px; */
-  aspect-ratio: 260 / 402; /* ✅ 비율 유지 */
+  aspect-ratio: 250 / 392; /* ✅ 비율 유지 */
   background-color: white;
   display: flex;
   flex-direction: column;
 }
 .main-item-thumbnail{
   width: 100%;
-  height: calc(312/406 * 100%);
+  height: calc(302/396 * 100%);
   /* background-color: #fff; */
-  aspect-ratio: 260 / 312;
+  aspect-ratio: 250 / 302;
 }
 .main-item-descriptions{
-  font-size: clamp(8px, 1.0vw, 16px);
+  font-size: clamp(8px, 1.0vw, 14px);
   padding: 10px;
   overflow: hidden;
   width: 100%;
-  height: calc(96/406 * 100%);
-  aspect-ratio: 260 / 96;
+  height: calc(86/396 * 100%);
+  aspect-ratio: 250 / 86;
 }
 .main-item-brand{
   cursor: pointer;
@@ -50,7 +50,7 @@
 
   .main-item {
     width: 143.5px;
-    height:calc(143.5px * 402 / 260);  /* 비율 고정 */
+    height:calc(143.5px * 392 / 250);  /* 비율 고정 */
     flex: none;
   }
 

@@ -10,7 +10,7 @@ export default async function({searchParams}){
   //pagenation
   let totalItems = await db.collection('product').countDocuments();
   let currentPage = parseInt(searchParams?.page) || 1;
-  let itemsPerPage = 10;
+  let itemsPerPage = 12;
   let totalPages = Math.ceil(totalItems / itemsPerPage);
   let skipCount = (currentPage - 1) * itemsPerPage;
   let items = await db.collection('product')

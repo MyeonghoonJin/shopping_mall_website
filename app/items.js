@@ -26,7 +26,7 @@ export default function Items({items,totalPages,styles}){
     // console.log(items.length)
     return(
         <div className={styles["main-item-center-column"]}>
-            <h3 className={styles["main-item-category-name"]}>여름 신상</h3>
+            <h3 className={styles["main-item-category-name"]}>여름 신상</h3><br></br>
             <div className={styles["main-item-container"]}>
                 
                 {
